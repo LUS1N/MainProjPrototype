@@ -7,6 +7,7 @@ using NPoco;
 
 namespace Prototype.API.Models
 {
+    [TableName("Database")]
     public class Database : DatabaseEntity
     {
         [Ignore]

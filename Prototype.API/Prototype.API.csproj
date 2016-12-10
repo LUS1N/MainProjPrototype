@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Database.sql" />
+    <Content Include="index.html" />
     <Content Include="packages.config" />
     <Content Include="Data\ServersPost.json" />
     <None Include="Web.Debug.config">
@@ -115,6 +116,7 @@
     <Compile Include="Models\Owner.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Site.cs" />
+    <Compile Include="Models\SiteToDatabase.cs" />
     <Compile Include="Modules\ApiModule.cs" />
     <Compile Include="Modules\Bootstrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -131,16 +133,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>58975</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:58975/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

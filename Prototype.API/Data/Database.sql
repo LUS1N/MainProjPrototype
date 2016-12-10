@@ -1,0 +1,1 @@
+﻿INSERT INTO [dbo].[Owner] (Name) VALUES ('Unassigned')

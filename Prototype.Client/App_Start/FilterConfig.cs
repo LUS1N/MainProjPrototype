@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace Prototype
+namespace Prototype.Client
 {
     public class FilterConfig
     {

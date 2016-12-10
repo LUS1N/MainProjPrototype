@@ -1,0 +1,76 @@
+{
+  "servers": [
+    {
+      "Name": "BigClientDedicatedWebServer",
+      "Ip": "1.1.1.1",
+      "OS": "Windows 2012 R2",
+      "Databases": [ ],
+      "Sites": [
+        {
+          "Name": "BigClientAPISite",
+          "Databases": [
+            {
+              "Name": "BigClientDatabase",
+              "DatabaseServerIp": "1.1.1.2"
+            },
+            {
+              "Name": "SecondaryDatabase",
+              "DatabaseServerIp": "1.1.1.2"
+            }
+          ]
+        },
+        {
+          "Name": "BigClientSite",
+          "Databases": [
+            {
+              "Name": "BigClientDatabase",
+              "DatabaseServerIp": "1.1.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "BigClientDedicatedSQLServer",
+      "Ip": "1.1.1.2",
+      "OS": "Windows 2012 R2",
+      "Databases": [ "BigClientDatabase", "SecondaryDatabase" ],
+      "Sites": [ ]
+    },
+    {
+      "name": "WebServer",
+      "ip": "1.1.1.1",
+      "os": "Windows 2012 R2",
+      "databases": [ ],
+      "sites": [
+        {
+          "name": "ClientASite",
+          "databases": [
+            {
+              "name": "ClientADatabase",
+              "databaseServerIp": "1.1.1.2"
+            }
+          ]
+        },
+        {
+          "name": "ClientBSite",
+          "databases": [
+            {
+              "name": "ClientBDatabase",
+              "databaseserverip": "1.1.1.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "server": {
+        "name": "SqlServer",
+        "ip": "1.1.1.2",
+        "os": "Windows 2012 R2",
+        "databases": [ "ClientADatabase", "ClientBDatabase" ],
+        "sites": [ ]
+      }
+    }
+  ]
+}

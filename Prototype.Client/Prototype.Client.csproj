@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{853B4C8B-B8F8-4136-AEF9-E16F15004F82}</ProjectGuid>
+    <ProjectGuid>{DA3DCE3B-43A8-49FF-B776-9C1CDBA0CDA9}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Prototype</RootNamespace>
-    <AssemblyName>Prototype</AssemblyName>
+    <RootNamespace>Prototype.Client</RootNamespace>
+    <AssemblyName>Prototype.Client</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -190,9 +190,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>57994</DevelopmentServerPort>
+          <DevelopmentServerPort>58983</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:57994/</IISUrl>
+          <IISUrl>http://localhost:58983/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

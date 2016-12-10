@@ -11,6 +11,6 @@ namespace Prototype.API.Models
     [TableName("Owner")]
     public class Owner : DatabaseEntity
     {
-        
+
     }
 }

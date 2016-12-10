@@ -67,6 +67,7 @@ CREATE TABLE [dbo].[Database]
 
 CREATE TABLE Site_To_Database
 (
+	[Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	[SiteId] [int] NOT NULL
 		 CONSTRAINT [FK_STD_2_Site]
 			REFERENCES Site(Id) ON DELETE CASCADE,

@@ -12,35 +12,54 @@ namespace Prototype.API.Modules
 {
     public class ApiModule : NancyModule
     {
-        Repository repository = new Repository();
+        readonly Repository _repository = new Repository();
+
         public ApiModule() : base("/")
         {
-            #region GETs
+            #region GET
 
             Get["/"] = _ => "API Module for Prototype application";
 
-            Get["/owners"] = _ => Response.AsJson(repository.GetOwners());
+            Get["/owners/{id?}"] = _ => Response.AsJson(_repository.GetOwners());
 
-            Get["/servers"] = _ => Response.AsJson(repository.GetOwners());
+            Get["/servers/{id?}"] = _ => Response.AsJson(_repository.GetServers());
 
-            Get["/sites"] = _ => Response.AsJson(repository.GetOwners());
+            Get["/sites/{id?}"] = _ => Response.AsJson(_repository.GetOwners());
 
-            Get["/databases"] = _ => Response.AsJson(repository.GetOwners());
+            Get["/databases/{id?}"] = _ => Response.AsJson(_repository.GetOwners());
+
+            #endregion
+
+            #region POST
+
+            Post["/server"] = model => Response.AsJson(_repository.SaveServer(this.Bind<Server>()));
+
+            Post["/owner"] = model => Response.AsJson(_repository.SaveOwner(this.Bind<Owner>()));
 
             #endregion
 
-            #region POSTs
+            #region PATCH
 
-            Post["/server"] = model => Response.AsJson(repository.SaveServer(this.Bind<Server>()));
+            Patch["/server/{id}"] = model => Response.AsJson("Not implemented");
 
-            Post["/servers"] = model => Response.AsJson(repository.SaveServers(this.Bind<ServersBind>().Servers));
+            Patch["/site/{id}"] = model => Response.AsJson("Not implemented");
+
+            Patch["/owner/{id}"] = model => Response.AsJson("Not implemented");
 
             #endregion
-        }
 
-        class ServersBind
-        {
-            public IEnumerable<Server> Servers { get; set; }
+            #region DELETE
+
+            Delete["/owner/{id}"] = model => Response.AsJson("Not implemented");
+
+            #endregion
+
+            #region Testing
+
+            // For testing, no real world scenario for this
+            Post["/servers"] = model => Response.AsJson(_repository.SaveServers(this.Bind<IEnumerable<Server>>()));
+
+            #endregion
         }
     }
 }

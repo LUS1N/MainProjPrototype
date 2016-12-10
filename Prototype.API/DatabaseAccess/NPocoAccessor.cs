@@ -19,7 +19,12 @@ namespace Prototype.API.DatabaseAccess
             _defaultOwner = _db.SingleOrDefault<Owner>("WHERE Name = @0", "Unassigned");
         }
 
-        public object SaveServer(Server server)
+        private static string ExtractHref(DatabaseEntity e)
+        {
+            return $"/{e.GetType().Name}s/{e.Id}";
+        }
+
+        public Server SaveServer(Server server)
         {
             var existing = GetEntityByName<Server>(server.Name);
             if (existing == null)
@@ -35,8 +40,11 @@ namespace Prototype.API.DatabaseAccess
 
             InsertDatabases(server);
             InsertSites(server);
+            server.Href = ExtractHref(server);
             return server;
         }
+
+        
 
         private void InsertDatabases(Server server)
         {
@@ -71,6 +79,7 @@ namespace Prototype.API.DatabaseAccess
                     site.OwnerId = existingSite.OwnerId;
                     site.Id = existingSite.Id;
                 }
+                site.Href = ExtractHref(site);
                 InsertDatabaseConnections(site);
             }
         }
@@ -84,6 +93,11 @@ namespace Prototype.API.DatabaseAccess
 
                 var existingDb = FindDatabaseByNameAndServerId(db.Name, srv.Id);
                 if (existingDb == null) return;
+
+                db.Href = ExtractHref(db);
+                db.Id = existingDb.Id;
+                db.OwnerId = existingDb.OwnerId;
+
                 TryInsertConnection(site, existingDb);
             }
         }
@@ -120,9 +134,14 @@ namespace Prototype.API.DatabaseAccess
             return _db.FirstOrDefault<T>("WHERE Name = @0", name);
         }
 
-        public IEnumerable<T> GetEntities<T>()
+        public IEnumerable<T> GetEntities<T>() where T : DatabaseEntity
         {
-            return _db.Fetch<T>();
+            var things = _db.Fetch<T>();
+            foreach (var thing in things)
+            {
+                thing.Href = ExtractHref(thing);
+            }
+            return things;
         }
 
         public IEnumerable<int> SaveServers(IEnumerable<Server> servers)
@@ -134,6 +153,13 @@ namespace Prototype.API.DatabaseAccess
                 ids.Add(server.Id);
             }
             return ids;
+        }
+
+        public Owner SaveOwner(Owner owner)
+        {
+            _db.Save(owner);
+            owner.Href = $"owners/{owner.Id}";
+            return owner;
         }
     }
 }

@@ -30,5 +30,15 @@ namespace Prototype.API.DatabaseAccess
         {
             return _accessor.SaveServers(servers);
         }
+
+        public Owner SaveOwner(Owner owner)
+        {
+            return _accessor.SaveOwner(owner);
+        }
+
+        public IEnumerable<Server> GetServers()
+        {
+            return _accessor.GetEntities<Server>();
+        }
     }
 }

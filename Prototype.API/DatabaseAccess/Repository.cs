@@ -41,7 +41,7 @@ namespace Prototype.API.DatabaseAccess
 
         #region Fetching
 
-    
+
 
         public IEnumerable<ClientServer> GetServers()
         {
@@ -63,7 +63,7 @@ namespace Prototype.API.DatabaseAccess
         }
         #endregion
 
-        public IEnumerable<ClientSite>  GetSites()
+        public IEnumerable<ClientSite> GetSites()
         {
             return _accessor.GetClientSites();
         }
@@ -71,7 +71,7 @@ namespace Prototype.API.DatabaseAccess
         public ClientSite GetSite(int id)
         {
             return _accessor.GetClientSite(id);
-          
+
         }
 
         public IEnumerable<ClientDatabase> GetDatabases()
@@ -82,6 +82,21 @@ namespace Prototype.API.DatabaseAccess
         public ClientDatabase GetDatabase(int id)
         {
             return _accessor.GetClientDatabase(id);
+        }
+
+        public IOwnerfull UpdateServerOwner(int ownerId, int serverId)
+        {
+            return _accessor.UpdateServersOwner(ownerId, serverId);
+        }
+
+        public IOwnerfull UpdateSiteOwner(int ownerId, int siteId)
+        {
+            return _accessor.UpdateSiteOwner(ownerId, siteId);
+        }
+
+        public Owner DeleteOwner(int id)
+        {
+            return _accessor.DeleteOwner(id);
         }
     }
 }

@@ -7,6 +7,7 @@ using Nancy;
 using Nancy.ModelBinding;
 using Prototype.API.DatabaseAccess;
 using Prototype.API.Models;
+using StructureMap.Building;
 
 namespace Prototype.API.Modules
 {
@@ -40,9 +41,9 @@ namespace Prototype.API.Modules
 
             #region PATCH
 
-            Patch["/server/{id}"] = model => Response.AsJson("Not implemented");
+            Patch["/server/{id}"] = model => CheckIfAllowed(_repository.UpdateServerOwner(this.Bind<OwnerIDD>().OwnerId, model.id));
 
-            Patch["/site/{id}"] = model => Response.AsJson("Not implemented");
+            Patch["/site/{id}"] = model => CheckIfAllowed(_repository.UpdateSiteOwner(this.Bind<OwnerIDD>().OwnerId, model.id));
 
             Patch["/owner/{id}"] = model => Response.AsJson("Not implemented");
 
@@ -50,7 +51,7 @@ namespace Prototype.API.Modules
 
             #region DELETE
 
-            Delete["/owner/{id}"] = model => Response.AsJson("Not implemented");
+            Delete["/owner/{id}"] = model => CheckIfFound(_repository.DeleteOwner(model.id));
 
             #endregion
 
@@ -62,6 +63,11 @@ namespace Prototype.API.Modules
             #endregion
         }
 
+        class OwnerIDD
+        {
+            public int OwnerId { get; set; }
+        }
+
         private Response CheckIfFound(object o)
         {
             Response rsp;
@@ -69,6 +75,21 @@ namespace Prototype.API.Modules
             {
                 rsp = Nancy.Response.NoBody;
                 rsp.StatusCode = HttpStatusCode.NotFound;
+            }
+            else
+            {
+                rsp = Response.AsJson(o);
+            }
+            return rsp;
+        }
+
+        private Response CheckIfAllowed(object o)
+        {
+            Response rsp;
+            if (o == null)
+            {
+                rsp = Nancy.Response.NoBody;
+                rsp.StatusCode = HttpStatusCode.Forbidden;
             }
             else
             {

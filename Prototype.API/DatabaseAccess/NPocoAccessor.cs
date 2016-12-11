@@ -167,6 +167,7 @@ namespace Prototype.API.DatabaseAccess
             return ent;
         }
 
+
         public IEnumerable<ClientServer> GetClientServers()
         {
             var servers = _db.Fetch<ClientServer>();
@@ -207,7 +208,7 @@ namespace Prototype.API.DatabaseAccess
             ProcessDatabaseListValues(databases);
             return databases;
         }
-       
+
         public ClientDatabase GetClientDatabase(int id)
         {
             var db = _db.FirstOrDefault<ClientDatabase>("WHERE Id = @0", id);
@@ -218,6 +219,23 @@ namespace Prototype.API.DatabaseAccess
         #endregion
 
         #region Updates
+
+        public IOwnerfull UpdateServersOwner(int ownerId, int serverId)
+        {
+            if (ownerId < 1 || serverId < 1) return null;
+            _db.Execute("UPDATE dbo.[Server] SET OwnerId = @0 WHERE Id = @1", ownerId, serverId);
+            _db.Execute("UPDATE dbo.[Database] SET OwnerId = @0 WHERE ServerId = @1", ownerId, serverId);
+            _db.Execute("UPDATE dbo.[Site] SET OwnerId = @0 WHERE ServerId = @1", ownerId, serverId);
+            return GetClientServer(serverId);
+        }
+
+        public IOwnerfull UpdateSiteOwner(int ownerId, int siteId)
+        {
+            if (ownerId < 1 || siteId < 1) return null;
+            _db.Execute("UPDATE dbo.[Site] SET OwnerId = @0 WHERE Id = @1", ownerId, siteId);
+            _db.Execute("UPDATE dbo.[Database] SET OwnerId = @0  WHERE Id IN (SELECT DatabaseId FROM Site_To_Database WHERE SiteId = @1)", ownerId, siteId);
+            return GetClientSite(siteId);
+        }
 
         public IOwnerfull UpdateOwner<T>(T entity) where T : DatabaseEntity, IOwnerfull
         {
@@ -255,6 +273,10 @@ namespace Prototype.API.DatabaseAccess
         {
             site.Databases = GetSitesDatabases(site.Id);
             AddOwnersAndHrefsForListOfInherited(site.Databases);
+            foreach (var clientDatabase in site.Databases)
+            {
+                AddServer(clientDatabase);
+            }
         }
 
         private void AddSitesToDatabases(ClientDatabase database)
@@ -263,7 +285,7 @@ namespace Prototype.API.DatabaseAccess
             AddOwnersAndHrefsForListOfInherited(database.Sites);
         }
 
-        private void AddOwnersAndHrefsForListOfInherited<T>(IEnumerable<T> items ) where T: DatabaseEntity, IOwnerfull
+        private void AddOwnersAndHrefsForListOfInherited<T>(IEnumerable<T> items) where T : DatabaseEntity, IOwnerfull
         {
             foreach (var item in items)
             {
@@ -377,5 +399,12 @@ namespace Prototype.API.DatabaseAccess
 
         #endregion
 
+        public Owner DeleteOwner(int id)
+        {
+            var owner = _db.FirstOrDefault<Owner>("WHERE Id = @0", id);
+            if (owner == null) return null;
+            _db.Delete<Owner>(owner);
+            return owner;
+        }
     }
 }

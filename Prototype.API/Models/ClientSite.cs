@@ -14,6 +14,5 @@ namespace Prototype.API.Models
 
         [Ignore]
         public ClientServer Server { get; set; }
-      
     }
 }

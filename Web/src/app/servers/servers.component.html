@@ -1,0 +1,20 @@
+<div *ngIf="servers" class="container fluid">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>IP</th>
+        <th>OS</th>
+        <th>Owner</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let server of servers">
+        <td>{{server.name}}</td>
+        <td>{{server.ip}}</td>
+        <td>{{server.os}}</td>
+        <td>{{server.owner.name}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -18,6 +18,5 @@ namespace Prototype.API.Models
         public IEnumerable<S> Sites { get; set; }
         [Ignore]
         public IEnumerable<D> Databases { get; set; }
-
     }
 }

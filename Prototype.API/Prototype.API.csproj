@@ -111,8 +111,17 @@
   <ItemGroup>
     <Compile Include="DatabaseAccess\NPocoAccessor.cs" />
     <Compile Include="DatabaseAccess\Repository.cs" />
+    <Compile Include="Models\ClientDatabase.cs" />
+    <Compile Include="Models\ClientServer.cs" />
+    <Compile Include="Models\ClientSite.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\DatabaseEntity.cs" />
+    <Compile Include="Models\DataCollectionServer.cs" />
+    <Compile Include="Models\DataCollectionDatabase.cs" />
+    <Compile Include="Models\DataCollectionSite.cs" />
+    <Compile Include="Models\IOwnerfull.cs" />
+    <Compile Include="Models\IOwnerIdd.cs" />
+    <Compile Include="Models\IServerChild.cs" />
     <Compile Include="Models\Owner.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Site.cs" />

@@ -9,6 +9,8 @@ namespace Prototype.API.DatabaseAccess
 {
     public class Repository
     {
+        #region Setup 
+
         private NPocoAccessor _accessor;
 
         public Repository()
@@ -16,17 +18,16 @@ namespace Prototype.API.DatabaseAccess
             _accessor = new NPocoAccessor();
         }
 
-        public object SaveServer(Server server)
+        #endregion
+
+        #region Saving
+
+        public object SaveServer(DataCollectionServer server)
         {
             return _accessor.SaveServer(server);
         }
 
-        public IEnumerable<Owner> GetOwners()
-        {
-            return _accessor.GetEntities<Owner>();
-        }
-
-        public object SaveServers(IEnumerable<Server> servers)
+        public object SaveServers(IEnumerable<DataCollectionServer> servers)
         {
             return _accessor.SaveServers(servers);
         }
@@ -36,9 +37,30 @@ namespace Prototype.API.DatabaseAccess
             return _accessor.SaveOwner(owner);
         }
 
-        public IEnumerable<Server> GetServers()
+        #endregion
+
+        #region Fetching
+
+    
+
+        public IEnumerable<ClientServer> GetServers()
         {
-            return _accessor.GetEntities<Server>();
+            return _accessor.GetClientServers();
         }
+
+        public ClientServer GetServer(int id)
+        {
+            return _accessor.GetClientServer(id);
+        }
+
+        public Owner GetOwner(int id)
+        {
+            return _accessor.GetEntity<Owner>(id);
+        }
+        public IEnumerable<Owner> GetOwners()
+        {
+            return _accessor.GetEntities<Owner>();
+        }
+        #endregion
     }
 }

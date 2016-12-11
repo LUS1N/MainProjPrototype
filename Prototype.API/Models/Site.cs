@@ -8,11 +8,17 @@ using NPoco;
 namespace Prototype.API.Models
 {
     [TableName("Site")]
-    public class Site : DatabaseEntity
+    public class Site<D> : DatabaseEntity, IServerChild, IOwnerIdd
     {
-        [Ignore]
-        public IEnumerable<Database> Databases { get; set; }
         public int ServerId { get; set; }
         public int OwnerId { get; set; }
+        public Site()
+        {
+            Databases = new List<D>();
+        }
+
+        [Ignore]
+        public IEnumerable<D> Databases { get; set; }
+     
     }
 }

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NPoco;
 
 namespace Prototype.API.Models
 {
-    public class Database : DatabaseEntity, IServerChild, IOwnerIdd
+    [TableName("Database")]
+    public class ClientDatabase : Database, IOwnerfull
     {
-        public int ServerId { get; set; }
-        public int OwnerId { get; set; }
+        [Ignore]
+        public Owner Owner { get; set; }
     }
 }

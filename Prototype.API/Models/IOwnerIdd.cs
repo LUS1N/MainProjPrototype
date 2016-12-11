@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Prototype.API.Models
 {
-    public class Database : DatabaseEntity, IServerChild, IOwnerIdd
+    public interface IOwnerIdd
     {
-        public int ServerId { get; set; }
-        public int OwnerId { get; set; }
+       int OwnerId { get; set; }
     }
 }

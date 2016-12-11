@@ -20,19 +20,27 @@ namespace Prototype.API.Modules
 
             Get["/"] = _ => "API Module for Prototype application";
 
-            Get["/owners/{id?}"] = _ => Response.AsJson(_repository.GetOwners());
+            Get["/owners/{id?}"] = parameters =>
+            {
+                object resp = parameters.id == null ? _repository.GetOwners() : _repository.GetOwner(parameters.id);
+                return CheckIfFound(resp);
+            };
 
-            Get["/servers/{id?}"] = _ => Response.AsJson(_repository.GetServers());
+            Get["/servers/{id?}"] = parameters =>
+            {
+                object resp = parameters.id == null ? _repository.GetServers() : _repository.GetServer(parameters.id);
+                return CheckIfFound(resp);
+            };
 
-            Get["/sites/{id?}"] = _ => Response.AsJson(_repository.GetOwners());
+            Get["/sites/{id?}"] = parameters => Response.AsJson(_repository.GetOwners());
 
-            Get["/databases/{id?}"] = _ => Response.AsJson(_repository.GetOwners());
+            Get["/databases/{id?}"] = parameters => Response.AsJson(_repository.GetOwners());
 
             #endregion
 
             #region POST
 
-            Post["/server"] = model => Response.AsJson(_repository.SaveServer(this.Bind<Server>()));
+            Post["/server"] = model => Response.AsJson(_repository.SaveServer(this.Bind<DataCollectionServer>()));
 
             Post["/owner"] = model => Response.AsJson(_repository.SaveOwner(this.Bind<Owner>()));
 
@@ -57,9 +65,24 @@ namespace Prototype.API.Modules
             #region Testing
 
             // For testing, no real world scenario for this
-            Post["/servers"] = model => Response.AsJson(_repository.SaveServers(this.Bind<IEnumerable<Server>>()));
+            Post["/servers"] = model => Response.AsJson(_repository.SaveServers(this.Bind<IEnumerable<DataCollectionServer>>()));
 
             #endregion
+        }
+
+        private Response CheckIfFound(object o)
+        {
+            Response rsp;
+            if (o == null)
+            {
+                rsp = Nancy.Response.NoBody;
+                rsp.StatusCode = HttpStatusCode.NotFound;
+            }
+            else
+            {
+                rsp = Response.AsJson(o);
+            }
+            return rsp;
         }
     }
 }

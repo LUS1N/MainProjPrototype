@@ -149,26 +149,9 @@ namespace Prototype.API.DatabaseAccess
 
         #endregion
 
-        #region Private methods
-
-        private ClientDatabase FindDatabaseByNameAndServerId(string name, int id)
-        {
-            return _db.FirstOrDefault<ClientDatabase>("WHERE Name = @0 AND ServerId = @1", name, id);
-        }
-
-        private DataCollectionServer GetServerByIp(string databaseServerIp)
-        {
-            return _db.FirstOrDefault<DataCollectionServer>("WHERE Ip = @0", databaseServerIp);
-        }
-
-        private T GetEntityByName<T>(string name)
-        {
-            return _db.FirstOrDefault<T>("WHERE Name = @0", name);
-        }
-
-        #endregion
 
 
+        #region Fetching
 
         public IEnumerable<T> GetEntities<T>() where T : DatabaseEntity
         {
@@ -202,12 +185,71 @@ namespace Prototype.API.DatabaseAccess
             return server;
         }
 
+        public ClientSite GetClientSite(int id)
+        {
+            var site = _db.FirstOrDefault<ClientSite>("WHERE Id = @0", id);
+            AddSiteValues(site);
+            return site;
+        }
+
+        public IEnumerable<ClientSite> GetClientSites()
+        {
+            var sites = _db.Fetch<ClientSite>();
+            foreach (var clientSite in sites)
+            {
+                AddSiteValues(clientSite);
+            }
+            return sites;
+        }
+
+
+        #endregion
+
+        #region Private database access methods
+
+        private void AddDatabasesToSite(ClientSite site)
+        {
+            site.Databases = GetSitesDatabases(site.Id);
+            foreach (var clientDatabase in site.Databases)
+            {
+                AddOwner(clientDatabase);
+                SetHrefForInherited(clientDatabase);
+            }
+        }
+
+        private IEnumerable<ClientDatabase> GetSitesDatabases(int siteId)
+        {
+            return _db.Fetch<ClientDatabase>(
+                " WHERE Id IN (SELECT DatabaseId FROM Site_To_Database WHERE SiteId = @0)", siteId);
+        }
+
+        private ClientDatabase FindDatabaseByNameAndServerId(string name, int id)
+        {
+            return _db.FirstOrDefault<ClientDatabase>("WHERE Name = @0 AND ServerId = @1", name, id);
+        }
+
+        private DataCollectionServer GetServerByIp(string databaseServerIp)
+        {
+            return _db.FirstOrDefault<DataCollectionServer>("WHERE Ip = @0", databaseServerIp);
+        }
+
+        private T GetEntityByName<T>(string name)
+        {
+            return _db.FirstOrDefault<T>("WHERE Name = @0", name);
+        }
+
         private void AddServerValues(ClientServer srv)
         {
             AddOwner(srv);
             srv.Sites = GetServerChildWithOwner<ClientSite>(srv.Id);
             srv.Databases = GetServerChildWithOwner<ClientDatabase>(srv.Id);
-            srv.Href = ExtractHref(srv, GetNameWithoutGenericArity(srv.GetType().BaseType));
+            SetHrefForInherited(srv);
+        }
+        private void AddSiteValues(ClientSite site)
+        {
+            SetHrefForInherited(site);
+            AddOwner(site);
+            AddDatabasesToSite(site);
         }
 
         private IEnumerable<T> GetServerChildWithOwner<T>(int serverId) where T : DatabaseEntity, IServerChild, IOwnerfull
@@ -239,6 +281,8 @@ namespace Prototype.API.DatabaseAccess
             ownerfull.Owner = GetEntity<Owner>(ownerfull.OwnerId);
         }
 
+        #endregion
+
         #region Helpers
         private string GetNameWithoutGenericArity(Type t)
         {
@@ -252,7 +296,13 @@ namespace Prototype.API.DatabaseAccess
             baseClass = baseClass.Length > 0 ? baseClass : e.GetType().Name;
             return $"/{baseClass}s/{e.Id}";
         }
+        private void SetHrefForInherited(DatabaseEntity entity)
+        {
+            entity.Href = ExtractHref(entity, GetNameWithoutGenericArity(entity.GetType().BaseType));
+        }
 
         #endregion
+
+
     }
 }

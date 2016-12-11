@@ -20,19 +20,11 @@ namespace Prototype.API.Modules
 
             Get["/"] = _ => "API Module for Prototype application";
 
-            Get["/owners/{id?}"] = parameters =>
-            {
-                object resp = parameters.id == null ? _repository.GetOwners() : _repository.GetOwner(parameters.id);
-                return CheckIfFound(resp);
-            };
+            Get["/owners/{id?}"] = parameters => CheckIfFound(parameters.id == null ? _repository.GetOwners() : _repository.GetOwner(parameters.id));
 
-            Get["/servers/{id?}"] = parameters =>
-            {
-                object resp = parameters.id == null ? _repository.GetServers() : _repository.GetServer(parameters.id);
-                return CheckIfFound(resp);
-            };
+            Get["/servers/{id?}"] = parameters => CheckIfFound(parameters.id == null ? _repository.GetServers() : _repository.GetServer(parameters.id));
 
-            Get["/sites/{id?}"] = parameters => Response.AsJson(_repository.GetOwners());
+            Get["/sites/{id?}"] = parameters => CheckIfFound(parameters.id == null ? _repository.GetSites() : _repository.GetSite(parameters.id));
 
             Get["/databases/{id?}"] = parameters => Response.AsJson(_repository.GetOwners());
 

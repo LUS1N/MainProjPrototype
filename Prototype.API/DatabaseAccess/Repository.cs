@@ -62,5 +62,16 @@ namespace Prototype.API.DatabaseAccess
             return _accessor.GetEntities<Owner>();
         }
         #endregion
+
+        public IEnumerable<ClientSite>  GetSites()
+        {
+            return _accessor.GetClientSites();
+        }
+
+        public ClientSite GetSite(int id)
+        {
+            return _accessor.GetClientSite(id);
+          
+        }
     }
 }

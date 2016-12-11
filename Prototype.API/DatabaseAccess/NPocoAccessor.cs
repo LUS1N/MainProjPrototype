@@ -150,7 +150,6 @@ namespace Prototype.API.DatabaseAccess
         #endregion
 
 
-
         #region Fetching
 
         public IEnumerable<T> GetEntities<T>() where T : DatabaseEntity
@@ -202,25 +201,92 @@ namespace Prototype.API.DatabaseAccess
             return sites;
         }
 
+        public IEnumerable<ClientDatabase> GetClientDatabases()
+        {
+            var databases = _db.Fetch<ClientDatabase>();
+            ProcessDatabaseListValues(databases);
+            return databases;
+        }
+       
+        public ClientDatabase GetClientDatabase(int id)
+        {
+            var db = _db.FirstOrDefault<ClientDatabase>("WHERE Id = @0", id);
+            ProcessDatabaseValues(db);
+            return db;
+        }
+
+        #endregion
+
+        #region Updates
+
+        public IOwnerfull UpdateOwner<T>(T entity) where T : DatabaseEntity, IOwnerfull
+        {
+            var fetched = _db.SingleById<T>(entity.Id);
+            fetched.OwnerId = entity.OwnerId;
+            _db.Update(fetched);
+            return fetched;
+        }
 
         #endregion
 
         #region Private database access methods
+        private void ProcessDatabaseListValues(IEnumerable<ClientDatabase> databases)
+        {
+            foreach (var database in databases)
+            {
+                ProcessDatabaseValues(database);
+            }
+        }
+
+        private void ProcessDatabaseValues(ClientDatabase db)
+        {
+            AddOwnerAndHref(db);
+            AddSitesToDatabases(db);
+            AddServer(db);
+        }
+
+        private void AddServer(IServerfull e)
+        {
+            e.Server = GetEntity<ClientServer>(e.ServerId);
+            AddShortServerValues(e.Server);
+        }
 
         private void AddDatabasesToSite(ClientSite site)
         {
             site.Databases = GetSitesDatabases(site.Id);
-            foreach (var clientDatabase in site.Databases)
+            AddOwnersAndHrefsForListOfInherited(site.Databases);
+        }
+
+        private void AddSitesToDatabases(ClientDatabase database)
+        {
+            database.Sites = GetDatabasesSites(database.Id);
+            AddOwnersAndHrefsForListOfInherited(database.Sites);
+        }
+
+        private void AddOwnersAndHrefsForListOfInherited<T>(IEnumerable<T> items ) where T: DatabaseEntity, IOwnerfull
+        {
+            foreach (var item in items)
             {
-                AddOwner(clientDatabase);
-                SetHrefForInherited(clientDatabase);
+                AddOwnerAndHref(item);
             }
+        }
+
+        private void AddOwnerAndHref<T>(T item) where T : DatabaseEntity, IOwnerfull
+        {
+            AddOwner(item);
+            SetHrefForInherited(item);
         }
 
         private IEnumerable<ClientDatabase> GetSitesDatabases(int siteId)
         {
             return _db.Fetch<ClientDatabase>(
                 " WHERE Id IN (SELECT DatabaseId FROM Site_To_Database WHERE SiteId = @0)", siteId);
+        }
+
+        private IEnumerable<ClientSite> GetDatabasesSites(int databaseId)
+        {
+            return _db.Fetch<ClientSite>(
+                   " WHERE Id IN (SELECT SiteId  FROM Site_To_Database WHERE DatabaseId = @0)", databaseId);
         }
 
         private ClientDatabase FindDatabaseByNameAndServerId(string name, int id)
@@ -240,16 +306,23 @@ namespace Prototype.API.DatabaseAccess
 
         private void AddServerValues(ClientServer srv)
         {
-            AddOwner(srv);
+            AddShortServerValues(srv);
             srv.Sites = GetServerChildWithOwner<ClientSite>(srv.Id);
             srv.Databases = GetServerChildWithOwner<ClientDatabase>(srv.Id);
+        }
+
+        private void AddShortServerValues(ClientServer srv)
+        {
+            AddOwner(srv);
             SetHrefForInherited(srv);
         }
+
         private void AddSiteValues(ClientSite site)
         {
             SetHrefForInherited(site);
             AddOwner(site);
             AddDatabasesToSite(site);
+            AddServer(site);
         }
 
         private IEnumerable<T> GetServerChildWithOwner<T>(int serverId) where T : DatabaseEntity, IServerChild, IOwnerfull
@@ -296,13 +369,13 @@ namespace Prototype.API.DatabaseAccess
             baseClass = baseClass.Length > 0 ? baseClass : e.GetType().Name;
             return $"/{baseClass}s/{e.Id}";
         }
+
         private void SetHrefForInherited(DatabaseEntity entity)
         {
             entity.Href = ExtractHref(entity, GetNameWithoutGenericArity(entity.GetType().BaseType));
         }
 
         #endregion
-
 
     }
 }

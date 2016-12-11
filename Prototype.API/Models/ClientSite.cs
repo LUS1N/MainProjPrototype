@@ -7,10 +7,13 @@ using NPoco;
 
 namespace Prototype.API.Models
 {
-    public class ClientSite : Site<ClientDatabase>, IOwnerfull
+    public class ClientSite : Site<ClientDatabase>, IOwnerfull, IServerfull
     {
         [Ignore]
         public Owner Owner { get; set; }
+
+        [Ignore]
+        public ClientServer Server { get; set; }
       
     }
 }

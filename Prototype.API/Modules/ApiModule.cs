@@ -26,7 +26,7 @@ namespace Prototype.API.Modules
 
             Get["/sites/{id?}"] = parameters => CheckIfFound(parameters.id == null ? _repository.GetSites() : _repository.GetSite(parameters.id));
 
-            Get["/databases/{id?}"] = parameters => Response.AsJson(_repository.GetOwners());
+            Get["/databases/{id?}"] = parameters => CheckIfFound(parameters.id == null ? _repository.GetDatabases() : _repository.GetDatabase(parameters.id));
 
             #endregion
 

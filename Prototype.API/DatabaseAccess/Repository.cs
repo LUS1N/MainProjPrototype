@@ -73,5 +73,15 @@ namespace Prototype.API.DatabaseAccess
             return _accessor.GetClientSite(id);
           
         }
+
+        public IEnumerable<ClientDatabase> GetDatabases()
+        {
+            return _accessor.GetClientDatabases();
+        }
+
+        public ClientDatabase GetDatabase(int id)
+        {
+            return _accessor.GetClientDatabase(id);
+        }
     }
 }

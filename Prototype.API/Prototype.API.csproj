@@ -122,6 +122,7 @@
     <Compile Include="Models\IOwnerfull.cs" />
     <Compile Include="Models\IOwnerIdd.cs" />
     <Compile Include="Models\IServerChild.cs" />
+    <Compile Include="Models\IServerfull.cs" />
     <Compile Include="Models\Owner.cs" />
     <Compile Include="Models\Server.cs" />
     <Compile Include="Models\Site.cs" />

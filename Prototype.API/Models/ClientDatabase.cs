@@ -8,9 +8,15 @@ using NPoco;
 namespace Prototype.API.Models
 {
     [TableName("Database")]
-    public class ClientDatabase : Database, IOwnerfull
+    public class ClientDatabase : Database, IOwnerfull, IServerfull
     {
         [Ignore]
         public Owner Owner { get; set; }
+
+        [Ignore]
+        public ClientServer Server { get; set; }
+
+        [Ignore]
+        public IEnumerable<ClientSite> Sites{ get; set; }
     }
 }

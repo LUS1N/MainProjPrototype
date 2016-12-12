@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Server } from '../models/server';
 import { ServersService } from '../servers.service';
 
@@ -9,16 +9,17 @@ import { ServersService } from '../servers.service';
 })
 export class ServersComponent implements OnInit {
 
-  servers: Server[];
+  @Input() servers: Server[];
 
   constructor(private srvService: ServersService) {
   }
 
   ngOnInit() {
-    this.srvService.getServers().subscribe(servers => {
-      this.servers = servers;
-    }
-    );
+    if (!this.servers)
+      this.srvService.getServers().subscribe(servers => {
+        this.servers = servers;
+      }
+      );
   }
 
 }

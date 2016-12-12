@@ -172,7 +172,7 @@ namespace Prototype.API.DatabaseAccess
             var owners = _db.Fetch<ClientOwner>();
             foreach (var o in owners)
             {
-                AddOwnersValues(o);
+                AddOwnersValuesShort(o);
             }
             return owners;
         }
@@ -180,11 +180,23 @@ namespace Prototype.API.DatabaseAccess
         public ClientOwner GetClientOwner(int id)
         {
             var o = _db.FirstOrDefault<ClientOwner>("WHERE Id = @0", id);
-            AddOwnersValues(o);
+            AddOwnersValuesLong(o);
             return o;
         }
 
-        private void AddOwnersValues(ClientOwner o)
+        private void AddOwnersValuesLong(ClientOwner o)
+        {
+            o.Databases = GetOwnersChildren<ClientDatabase>(o.Id);
+            ProcessDatabaseListValues(o.Databases);
+            o.Sites = GetOwnersChildren<ClientSite>(o.Id);
+            AddSiteValuesToList(o.Sites);
+            o.Servers = GetOwnersChildren<ClientServer>(o.Id);
+            AddServerValuesToList(o.Servers);
+
+            SetHrefForInherited(o);
+        }
+
+        private void AddOwnersValuesShort(ClientOwner o)
         {
             o.Databases = GetOwnersChildren<ClientDatabase>(o.Id);
             o.Sites = GetOwnersChildren<ClientSite>(o.Id);
@@ -200,11 +212,16 @@ namespace Prototype.API.DatabaseAccess
         public IEnumerable<ClientServer> GetClientServers()
         {
             var servers = _db.Fetch<ClientServer>();
+            AddServerValuesToList(servers);
+            return servers;
+        }
+
+        private void AddServerValuesToList(IEnumerable<ClientServer> servers)
+        {
             foreach (var srv in servers)
             {
                 AddServerValues(srv);
             }
-            return servers;
         }
 
         public ClientServer GetClientServer(int id)
@@ -224,11 +241,16 @@ namespace Prototype.API.DatabaseAccess
         public IEnumerable<ClientSite> GetClientSites()
         {
             var sites = _db.Fetch<ClientSite>();
+            AddSiteValuesToList(sites);
+            return sites;
+        }
+
+        private void AddSiteValuesToList(IEnumerable<ClientSite> sites)
+        {
             foreach (var clientSite in sites)
             {
                 AddSiteValues(clientSite);
             }
-            return sites;
         }
 
         public IEnumerable<ClientDatabase> GetClientDatabases()

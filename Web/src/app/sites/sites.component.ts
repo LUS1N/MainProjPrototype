@@ -19,7 +19,6 @@ export class SitesComponent implements OnInit {
     private sitesService: SitesService) { }
 
   ngOnInit() {
-    console.log(this.sites)
     if (!this.sites) {
       this.getSites();
     } else {

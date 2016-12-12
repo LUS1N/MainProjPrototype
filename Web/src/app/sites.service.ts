@@ -1,12 +1,14 @@
+import { Site } from './models/site';
+
 import { Injectable } from '@angular/core';
 import { ConfigService } from './config.service';
-import { Server } from './models/server';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/operator/map';
 import { extractData, getHeaders, getPostHeaders } from './helpers';
+
 @Injectable()
-export class ServersService {
+export class SitesService {
 
   apiUrl: string;
   constructor(config: ConfigService,
@@ -14,13 +16,11 @@ export class ServersService {
     this.apiUrl = config.apiUrl;
   }
 
-  getServers(): Observable<Server[]> {
-    return this.http.get(this.apiUrl + '/servers', { headers: getHeaders() }).map(extractData);
-  }
- 
-  getServer(id: number): Observable<Server> {
-    return this.http.get(`${this.apiUrl}/servers/${id}`, { headers: getHeaders() }).map(extractData);
+  getSite(id: number): Observable<Site> {
+    return this.http.get(`${this.apiUrl}/sites/${id}`, { headers: getHeaders() }).map(extractData);
   }
 
-
+  getSites(): Observable<Site[]> {
+    return this.http.get(this.apiUrl + '/sites', { headers: getHeaders() }).map(extractData);
+  }
 }

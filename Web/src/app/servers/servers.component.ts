@@ -17,7 +17,6 @@ export class ServersComponent implements OnInit {
   ngOnInit() {
     this.srvService.getServers().subscribe(servers => {
       this.servers = servers;
-      console.log(this.servers.length)
     }
     );
   }

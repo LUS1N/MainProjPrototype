@@ -330,7 +330,12 @@ namespace Prototype.API.DatabaseAccess
         {
             AddShortServerValues(srv);
             srv.Sites = GetServerChildWithOwner<ClientSite>(srv.Id);
+            foreach (var clientSite in srv.Sites)
+            {
+                AddSiteValues(clientSite);
+            }
             srv.Databases = GetServerChildWithOwner<ClientDatabase>(srv.Id);
+            ProcessDatabaseListValues(srv.Databases);
         }
 
         private void AddShortServerValues(ClientServer srv)

@@ -1,4 +1,5 @@
-<div *ngIf="databases" class="container fluid">
+<div *ngIf="databases && databases.length > 0" class="container fluid">
+  <h2>Databases</h2>
   <table class="table table-hover">
     <thead>
       <tr>

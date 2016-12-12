@@ -24,5 +24,6 @@
     <div class="col-md-4">{{server.databases.length}}</div>
   </div>
   <br>
-
+  <app-sites [sites]="server.sites" [server]="server"></app-sites>
+  <app-databases [databases]="server.databases" [server]="server"></app-databases>
 </div>

@@ -167,6 +167,35 @@ namespace Prototype.API.DatabaseAccess
             return ent;
         }
 
+        public IEnumerable<ClientOwner> GetClientOwners()
+        {
+            var owners = _db.Fetch<ClientOwner>();
+            foreach (var o in owners)
+            {
+                AddOwnersValues(o);
+            }
+            return owners;
+        }
+
+        public ClientOwner GetClientOwner(int id)
+        {
+            var o = _db.FirstOrDefault<ClientOwner>("WHERE Id = @0", id);
+            AddOwnersValues(o);
+            return o;
+        }
+
+        private void AddOwnersValues(ClientOwner o)
+        {
+            o.Databases = GetOwnersChildren<ClientDatabase>(o.Id);
+            o.Sites = GetOwnersChildren<ClientSite>(o.Id);
+            o.Servers = GetOwnersChildren<ClientServer>(o.Id);
+            SetHrefForInherited(o);
+        }
+
+        private List<T> GetOwnersChildren<T>(int ownerId) where T : IOwnerfull
+        {
+            return _db.Fetch<T>("WHERE OwnerId = @0", ownerId);
+        }
 
         public IEnumerable<ClientServer> GetClientServers()
         {

@@ -53,13 +53,13 @@ namespace Prototype.API.DatabaseAccess
             return _accessor.GetClientServer(id);
         }
 
-        public Owner GetOwner(int id)
+        public ClientOwner GetOwner(int id)
         {
-            return _accessor.GetEntity<Owner>(id);
+            return _accessor.GetClientOwner(id);
         }
-        public IEnumerable<Owner> GetOwners()
+        public IEnumerable<ClientOwner> GetOwners()
         {
-            return _accessor.GetEntities<Owner>();
+            return _accessor.GetClientOwners();
         }
         #endregion
 

@@ -1,3 +1,21 @@
-<p>
-  owners works!
-</p>
+<div *ngIf="owners" class="container fluid">
+  <h2>Owners</h2>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Servers</th>
+        <th>Sites</th>
+        <th>Databases</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let o of owners">
+        <td><a [routerLink]="['/owners', o.id ]">{{o.name}}</a></td>
+        <td>{{o.servers.length}}</td>
+        <td>{{o.sites.length}}</td>
+        <td>{{o.databases.length}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

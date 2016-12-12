@@ -112,6 +112,7 @@
     <Compile Include="DatabaseAccess\NPocoAccessor.cs" />
     <Compile Include="DatabaseAccess\Repository.cs" />
     <Compile Include="Models\ClientDatabase.cs" />
+    <Compile Include="Models\ClientOwner.cs" />
     <Compile Include="Models\ClientServer.cs" />
     <Compile Include="Models\ClientSite.cs" />
     <Compile Include="Models\Database.cs" />

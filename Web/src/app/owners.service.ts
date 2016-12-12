@@ -23,4 +23,9 @@ export class OwnersService {
   getOwners(): Observable<Owner[]> {
     return this.http.get(this.apiUrl + '/owners', { headers: getHeaders() }).map(extractData);
   }
+
+  updateEntitiesOwner<T>(href: string, ownerId: number): Observable<T> {
+    var body = JSON.stringify({ ownerId: ownerId });
+    return this.http.patch(`${this.apiUrl}${href}`, body, { headers: getPostHeaders() }).map(extractData);
+  }
 }

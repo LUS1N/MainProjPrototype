@@ -8,7 +8,7 @@ using NPoco;
 namespace Prototype.API.Models
 {
     [TableName("Owner")]
-    public class ClientOwner : DatabaseEntity
+    public class ClientOwner : Owner
     {
         [Ignore]
         public IEnumerable<ClientServer> Servers { get; set; }

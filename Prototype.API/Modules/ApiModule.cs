@@ -41,17 +41,17 @@ namespace Prototype.API.Modules
 
             #region PATCH
 
-            Patch["/server/{id}"] = model => CheckIfAllowed(_repository.UpdateServerOwner(this.Bind<OwnerIDD>().OwnerId, model.id));
+            Patch["/servers/{id}"] = model => CheckIfAllowed(_repository.UpdateServerOwner(this.Bind<OwnerIDD>().OwnerId, model.id));
 
-            Patch["/site/{id}"] = model => CheckIfAllowed(_repository.UpdateSiteOwner(this.Bind<OwnerIDD>().OwnerId, model.id));
+            Patch["/sites/{id}"] = model => CheckIfAllowed(_repository.UpdateSiteOwner(this.Bind<OwnerIDD>().OwnerId, model.id));
 
-            Patch["/owner/{id}"] = model => Response.AsJson("Not implemented");
+            Patch["/owners/{id}"] = model => Response.AsJson("Not implemented");
 
             #endregion
 
             #region DELETE
 
-            Delete["/owner/{id}"] = model => CheckIfFound(_repository.DeleteOwner(model.id));
+            Delete["/owners/{id}"] = model => CheckIfFound(_repository.DeleteOwner(model.id));
 
             #endregion
 

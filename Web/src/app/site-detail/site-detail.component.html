@@ -6,8 +6,7 @@
   </div>
   <br>
   <div class="row">
-    <div class="col-sm-2 title">Owner:</div>
-    <div class="col-sm-4 "><a [routerLink]="['/owners', site.owner.id ]">{{site.owner.name}}</a></div>
+    <app-change-owner (onOwnerSelect)="updateOwner($event)" [owner]="site.owner"></app-change-owner>
     <div class="col-sm-2 title">Server:</div>
     <div class="col-sm-4 "><a [routerLink]="['/servers', site.server.id ]">{{site.server.name}}</a></div>
   </div>

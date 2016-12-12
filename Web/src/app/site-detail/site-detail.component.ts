@@ -1,7 +1,9 @@
-import { Site } from '../models/site';
+import {OwnersService} from '../owners.service';
+import {Site} from '../models/site';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { SitesService } from '../sites.service';
+import {SitesService} from '../sites.service';
+
 @Component({
   selector: 'app-site-detail',
   templateUrl: './site-detail.component.html',
@@ -13,6 +15,7 @@ export class SiteDetailComponent implements OnInit {
   site: Site;
 
   constructor(private route: ActivatedRoute,
+  private ownersService: OwnersService,
     private siteService: SitesService) {
   }
 
@@ -26,5 +29,9 @@ export class SiteDetailComponent implements OnInit {
   getSite() {
     this.siteService.getSite(this.siteId).subscribe(s =>
       this.site = s);
+  }
+
+  updateOwner(id: number){
+    this.ownersService.updateEntitiesOwner<Site>(this.site.href, id).subscribe(site => this.site = site);
   }
 }

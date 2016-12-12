@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ServersService } from '../servers.service';
 import { Server } from '../models/server';
+import { OwnersService } from '../owners.service';
 
 @Component({
   selector: 'app-server-detail',
@@ -12,7 +13,8 @@ export class ServerDetailComponent implements OnInit {
 
   serverId: number;
   server: Server;
-  constructor(private route: ActivatedRoute, private srvService: ServersService) {
+  constructor(private route: ActivatedRoute,
+    private ownersService: OwnersService, private srvService: ServersService) {
   }
 
   ngOnInit(): void {
@@ -26,5 +28,9 @@ export class ServerDetailComponent implements OnInit {
     this.srvService.getServer(this.serverId).subscribe(server => {
       this.server = server;
     });
+  }
+
+  updateOwner(id: number) {
+    this.ownersService.updateEntitiesOwner<Server>(this.server.href, id).subscribe(server => this.server = server);
   }
 }

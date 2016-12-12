@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { TypeaheadModule, TypeaheadMatch } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ServersComponent } from './servers/servers.component';
@@ -20,6 +21,7 @@ import { DatabasesComponent } from './databases/databases.component';
 import { DatabaseDetailComponent } from './database-detail/database-detail.component';
 import { OwnerDetailComponent } from './owner-detail/owner-detail.component';
 import { OwnersComponent } from './owners/owners.component';
+import { ChangeOwnerComponent } from './change-owner/change-owner.component';
 
 @NgModule({
   declarations: [
@@ -31,13 +33,15 @@ import { OwnersComponent } from './owners/owners.component';
     DatabasesComponent,
     DatabaseDetailComponent,
     OwnerDetailComponent,
-    OwnersComponent
+    OwnersComponent,
+    ChangeOwnerComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    TypeaheadModule
   ],
   providers: [
     ServersService,

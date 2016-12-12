@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabasesService } from '../databases.service';
+import { Database } from '../models/database';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-database-detail',
@@ -7,9 +10,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DatabaseDetailComponent implements OnInit {
 
-  constructor() { }
+  databaseId: number;
+  database: Database;
 
-  ngOnInit() {
+  constructor(private route: ActivatedRoute,
+    private dbServc: DatabasesService) {
   }
 
+  ngOnInit() {
+    this.route.params.forEach((params: Params) =>
+      this.databaseId = +params['id']); // extract serverId
+
+    this.getDatabase();
+  }
+
+  getDatabase() {
+    this.dbServc.getDatabase(this.databaseId).subscribe(db =>
+      this.database = db);
+  }
 }

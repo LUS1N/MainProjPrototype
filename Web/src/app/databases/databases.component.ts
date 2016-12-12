@@ -5,8 +5,7 @@ import { DatabasesService } from '../databases.service';
 
 @Component({
   selector: 'app-databases',
-  templateUrl: './databases.component.html',
-  styleUrls: ['./databases.component.css']
+  templateUrl: './databases.component.html'
 })
 export class DatabasesComponent implements OnInit {
 

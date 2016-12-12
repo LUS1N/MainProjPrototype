@@ -234,7 +234,7 @@ namespace Prototype.API.DatabaseAccess
         public ClientSite GetClientSite(int id)
         {
             var site = _db.FirstOrDefault<ClientSite>("WHERE Id = @0", id);
-            AddSiteValues(site);
+            AddSiteValuesLong(site);
             return site;
         }
 
@@ -249,7 +249,7 @@ namespace Prototype.API.DatabaseAccess
         {
             foreach (var clientSite in sites)
             {
-                AddSiteValues(clientSite);
+                AddSiteValuesShort(clientSite);
             }
         }
 
@@ -263,7 +263,7 @@ namespace Prototype.API.DatabaseAccess
         public ClientDatabase GetClientDatabase(int id)
         {
             var db = _db.FirstOrDefault<ClientDatabase>("WHERE Id = @0", id);
-            ProcessDatabaseValues(db);
+            ProcessDatabaseValuesLong(db);
             return db;
         }
 
@@ -303,11 +303,19 @@ namespace Prototype.API.DatabaseAccess
         {
             foreach (var database in databases)
             {
-                ProcessDatabaseValues(database);
+                ProcessDatabaseValuesShort(database);
             }
         }
 
-        private void ProcessDatabaseValues(ClientDatabase db)
+        private void ProcessDatabaseValuesLong(ClientDatabase db)
+        {
+            AddOwnerAndHref(db);
+            AddSitesToDatabases(db);
+            AddSiteValuesToList(db.Sites);
+            AddServer(db);
+        }
+
+        private void ProcessDatabaseValuesShort(ClientDatabase db)
         {
             AddOwnerAndHref(db);
             AddSitesToDatabases(db);
@@ -383,7 +391,7 @@ namespace Prototype.API.DatabaseAccess
             srv.Sites = GetServerChildWithOwner<ClientSite>(srv.Id);
             foreach (var clientSite in srv.Sites)
             {
-                AddSiteValues(clientSite);
+                AddSiteValuesShort(clientSite);
             }
             srv.Databases = GetServerChildWithOwner<ClientDatabase>(srv.Id);
             ProcessDatabaseListValues(srv.Databases);
@@ -395,7 +403,16 @@ namespace Prototype.API.DatabaseAccess
             SetHrefForInherited(srv);
         }
 
-        private void AddSiteValues(ClientSite site)
+        private void AddSiteValuesLong(ClientSite site)
+        {
+            SetHrefForInherited(site);
+            AddOwner(site);
+            AddDatabasesToSite(site);
+            ProcessDatabaseListValues(site.Databases);
+            AddServer(site);
+        }
+
+        private void AddSiteValuesShort(ClientSite site)
         {
             SetHrefForInherited(site);
             AddOwner(site);

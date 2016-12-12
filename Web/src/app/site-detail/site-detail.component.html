@@ -1,3 +1,16 @@
-<p>
-  site-detail works!
-</p>
+<div *ngIf="site" class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h1>{{site.name}}</h1>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-2 title">Owner:</div>
+    <div class="col-sm-4 "><a [routerLink]="['/owners', site.owner.id ]">{{site.owner.name}}</a></div>
+    <div class="col-sm-2 title">Server:</div>
+    <div class="col-sm-4 "><a [routerLink]="['/servers', site.server.id ]">{{site.server.name}}</a></div>
+  </div>
+  <br>
+  <app-databases [databases]="site.databases"></app-databases>
+</div>

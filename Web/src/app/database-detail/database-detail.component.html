@@ -1,3 +1,16 @@
-<p>
-  database-detail works!
-</p>
+<div *ngIf="database" class="container">
+  <div class="row">
+    <div class="col-lg-12 text-center">
+      <h1>{{database.name}}</h1>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-2 title">Owner:</div>
+    <div class="col-sm-4 "><a [routerLink]="['/owners', database.owner.id ]">{{database.owner.name}}</a></div>
+    <div class="col-sm-2 title">Server:</div>
+    <div class="col-sm-4 "><a [routerLink]="['/servers', database.server.id ]">{{database.server.name}}</a></div>
+  </div>
+  <br>
+  <app-sites [sites]="database.sites"></app-sites>
+</div>

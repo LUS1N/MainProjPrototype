@@ -1,11 +1,11 @@
 <div class="col-sm-2 title">Owner:</div>
 <div *ngIf="!editing" class="col-sm-2 "><a [routerLink]="['/owners', owner.id ]">{{owner.name}}</a></div>
 <div *ngIf="editing" class="col-sm-2 ">
-  <input [(ngModel)]="selectOwner.name" [typeahead]="owners" (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionField]="'name'"
-    class="form-control">
+    <input [(ngModel)]="selectOwner.name" [typeahead]="owners" (typeaheadOnSelect)="typeaheadOnSelect($event)" [typeaheadOptionField]="'name'"
+           class="form-control">
 </div>
 <div class="col-sm-2">
-  <button *ngIf="!editing" (click)="flipEditing()" class="btn btn-primary pull-left">Change</button>
-  <button *ngIf="editing" (click)="saveOwner()" class="btn btn-success">OK</button>
-  <button *ngIf="editing" (click)="flipEditing()" class="btn btn-danger">Cancel</button>
+    <button *ngIf="!editing" (click)="flipEditing()" class="btn btn-primary pull-left">Change</button>
+    <button *ngIf="editing" (click)="saveOwner()" class="btn btn-success">OK</button>
+    <button *ngIf="editing" (click)="flipEditing()" class="btn btn-danger">Cancel</button>
 </div>

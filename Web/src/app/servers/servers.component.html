@@ -1,25 +1,25 @@
 <div *ngIf="servers && servers.length > 0" class="container fluid">
-  <h2>Servers</h2>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>IP</th>
-        <th>OS</th>
-        <th>Owner</th>
-        <th>Sites</th>
-        <th>Databases</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let server of servers">
-        <td><a [routerLink]="['/servers', server.id ]">{{server.name}}</a></td>
-        <td>{{server.ip}}</td>
-        <td>{{server.os}}</td>
-        <td><a [routerLink]="['/owners', server.owner.id ]">{{server.owner.name}}</a></td>
-        <td>{{server.sites.length}}</td>
-        <td>{{server.databases.length}}</td>
-      </tr>
-    </tbody>
-  </table>
+    <h2>Servers</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>IP</th>
+                <th>OS</th>
+                <th>Owner</th>
+                <th>Sites</th>
+                <th>Databases</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let server of servers">
+                <td><a [routerLink]="['/servers', server.id ]">{{server.name}}</a></td>
+                <td>{{server.ip}}</td>
+                <td>{{server.os}}</td>
+                <td><a [routerLink]="['/owners', server.owner.id ]">{{server.owner.name}}</a></td>
+                <td>{{server.sites.length}}</td>
+                <td>{{server.databases.length}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

@@ -31,6 +31,7 @@ export class ServerDetailComponent implements OnInit {
   }
 
   updateOwner(id: number) {
-    this.ownersService.updateEntitiesOwner<Server>(this.server.href, id).subscribe(server => this.server = server);
+    this.ownersService.updateEntitiesOwner<Server>(this.server.href, id).subscribe(server =>
+      this.server = server);
   }
 }

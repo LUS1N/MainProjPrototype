@@ -3,23 +3,18 @@ import { Server } from '../models/server';
 import { ServersService } from '../servers.service';
 
 @Component({
-  selector: 'app-servers',
-  templateUrl: './servers.component.html',
-  styleUrls: ['./servers.component.css']
+    selector: 'app-servers',
+    templateUrl: './servers.component.html'
 })
 export class ServersComponent implements OnInit {
 
-  @Input() servers: Server[];
+    @Input() servers: Server[];
 
-  constructor(private srvService: ServersService) {
-  }
+    constructor(private srvService: ServersService) {
+    }
 
-  ngOnInit() {
-    if (!this.servers)
-      this.srvService.getServers().subscribe(servers => {
-        this.servers = servers;
-      }
-      );
-  }
-
+    ngOnInit() {
+        if (!this.servers)
+            this.srvService.getServers().subscribe(servers => this.servers = servers);
+    }
 }

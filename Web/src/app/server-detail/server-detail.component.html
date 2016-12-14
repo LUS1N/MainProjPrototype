@@ -1,28 +1,26 @@
 <div *ngIf="server" class="container">
-  <div class="row">
-    <div class="col-lg-12 text-center">
-      <h1>{{server.name}}</h1>
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <h1>{{server.name}}</h1>
+        </div>
     </div>
-  </div>
-  <br>
-  <div class="row">
-    <app-change-owner (onOwnerSelect)="updateOwner($event)" [owner]="server.owner"></app-change-owner>
-    <div class="col-md-2 title">Ip:</div>
-    <div class="col-md-4">{{server.ip}}</div>
-  </div>
-  <div class="row">
-    <div class="col-md-2 title">OS:</div>
-    <div class="col-md-4">{{server.os}}</div>
-    <div class="col-md-2 title">OS:</div>
-    <div class="col-md-4">{{server.os}}</div>
-  </div>
-  <div class="row">
-    <div class="col-md-2 title">Sites:</div>
-    <div class="col-md-4">{{server.sites.length}}</div>
-    <div class="col-md-2 title">Databases:</div>
-    <div class="col-md-4">{{server.databases.length}}</div>
-  </div>
-  <br>
-  <app-sites [sites]="server.sites" [server]="server"></app-sites>
-  <app-databases [databases]="server.databases" [server]="server"></app-databases>
+    <br>
+    <div class="row">
+        <app-change-owner (onOwnerSelect)="updateOwner($event)" [owner]="server.owner"></app-change-owner>
+        <div class="col-md-2 title">Ip:</div>
+        <div class="col-md-4">{{server.ip}}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title">OS:</div>
+        <div class="col-md-4">{{server.os}}</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 title">Sites:</div>
+        <div class="col-md-4">{{server.sites.length}}</div>
+        <div class="col-md-2 title">Databases:</div>
+        <div class="col-md-4">{{server.databases.length}}</div>
+    </div>
+    <br>
+    <app-sites [sites]="server.sites" [server]="server"></app-sites>
+    <app-databases [databases]="server.databases" [server]="server"></app-databases>
 </div>
